@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  app:
+    container_name: 'app'
+    build: './realestate'
+    volumes:
+      - './build/realestate:/realestate'
+      - './config/:/config'
+    depends_on:
+      - 'mongo'
+
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:

@@ -1,15 +1,19 @@
-.PHONY: build run help
+.PHONY: build run client help
 .DEFAULT_GOAL := build
 
 PROJECTNAME := $(shell basename "$(PWD)")
 
 ## build: build project
 build:
-	go build -v ./cmd/$(PROJECTNAME) -o ./build/$(PROJECTNAME)
+	go build -o ./build/$(PROJECTNAME) -v ./cmd/$(PROJECTNAME)
+	go build -o ./build/client -v ./cmd/client
 
 ## run: run project
 run:
 	./build/$(PROJECTNAME)
+
+client:
+	./build/client
 
 help: Makefile
 	@echo

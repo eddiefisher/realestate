@@ -1,0 +1,7 @@
+vladis = "https://vladis.ru/zagorodnaya?flt[raion-obl]=&flt[city]=&flt[keywords]=&flt[o_type][]=land&flt[price][0]=&flt[price][1]=400000&flt[all_sq][0]=&flt[all_sq][1]=&flt[land_area][0]=5&flt[land_area][1]=&flt[radius]=&flt[last]=all&show_map=0&view=tbl"
+ioffepartners = "https://www.ioffepartners.ru/country_lands/?price=,400000&view=table"
+domofond = "https://www.domofond.ru/prodazha-uchastkizemli-vladimirskaya_oblast-r8?PriceTo=500000&LandCategories=Settlements&ErfSizeFrom=500&SortOrder=Newest&HasPhotos=True"
+cian = "https://vladimir.cian.ru/cat.php?currency=2&deal_type=sale&engine_version=2&maxprice=400000&object_type%5B0%5D=3&offer_type=suburban&region=4703"
+avito = "https://www.avito.ru/vladimir/zemelnye_uchastki/prodam?pmax=400000&f=531_5491-5492.586_14380b0"
+vladbn = "http://vladbn.ru"
+yandex = "realty.yandex"

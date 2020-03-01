@@ -1,0 +1,21 @@
+{{ define "title" }}{{.Title}}{{ end }}
+
+{{ define "content" }}
+{{range .Lands}}
+<div class="row">
+    <div class="col-xl">
+        <div class="media">
+            <div class="media-body">
+                <h5 class="mt-0"><a href="{{ .Link }}" target="_blank">{{ .Name }} | {{ .Price }}</a></h5>
+                <div>
+                    <p>{{ .Area }} {{ .Info }}</p>
+                    <p>{{ .Description }}</p>
+                </div>
+                <hr />
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}
+{{ template "pagination" . }}
+{{ end }}
