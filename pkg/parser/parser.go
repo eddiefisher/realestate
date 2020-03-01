@@ -23,8 +23,8 @@ func CachDate() string {
 func Run(conf Config) Lands {
 	var lands Lands
 
-	lands = lands.Append(Realestate{Name: "avito", Url: conf.Avito, UrlPrefix: "https://www.avito.ru"}.ParseList(ParseAvito))
-	lands = lands.Append(Realestate{Name: "vladis", Url: conf.Vladis, UrlPrefix: "https://vladis.ru"}.ParseList(ParseVladis))
+	lands = lands.Append(Realestate{Name: "avito", URL: conf.Avito, URLPrefix: "https://www.avito.ru"}.ParseList(ParseAvito))
+	lands = lands.Append(Realestate{Name: "vladis", URL: conf.Vladis, URLPrefix: "https://vladis.ru"}.ParseList(ParseVladis))
 	return lands
 }
 

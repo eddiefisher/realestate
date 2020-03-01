@@ -10,7 +10,7 @@ import (
 // ParseVladis ...
 func ParseVladis(r Realestate, c *colly.Collector) (lands Lands) {
 	parseHTMLElement := func(e *colly.HTMLElement) {
-		link := fmt.Sprintf("%s%s", r.UrlPrefix, e.ChildAttr(".fld_tit a", "href"))
+		link := fmt.Sprintf("%s%s", r.URLPrefix, e.ChildAttr(".fld_tit a", "href"))
 		lands = append(lands, Land{
 			UID:   base64.StdEncoding.EncodeToString([]byte(link)),
 			Name:  e.ChildText(".fld_tit a"),
@@ -22,7 +22,7 @@ func ParseVladis(r Realestate, c *colly.Collector) (lands Lands) {
 		})
 	}
 	c.OnHTML(".holder.obj-h table tbody tr", parseHTMLElement)
-	c.Visit(r.Url)
+	c.Visit(r.URL)
 
 	return lands
 }

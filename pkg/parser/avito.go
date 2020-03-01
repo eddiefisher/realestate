@@ -10,7 +10,7 @@ import (
 // ParseAvito ...
 func ParseAvito(r Realestate, c *colly.Collector) (lands Lands) {
 	c.OnHTML(".js-catalog_serp .snippet-horizontal.item.item_table", func(e *colly.HTMLElement) {
-		link := fmt.Sprintf("%s%s", r.UrlPrefix, e.ChildAttr("a.snippet-link", "href"))
+		link := fmt.Sprintf("%s%s", r.URLPrefix, e.ChildAttr("a.snippet-link", "href"))
 		lands = append(lands, Land{
 			UID:   base64.StdEncoding.EncodeToString([]byte(link)),
 			Name:  e.ChildText(".snippet-link"),
@@ -20,7 +20,7 @@ func ParseAvito(r Realestate, c *colly.Collector) (lands Lands) {
 			Date:  e.ChildText(".snippet-date-info"),
 		})
 	})
-	c.Visit(r.Url)
+	c.Visit(r.URL)
 
 	return lands
 }

@@ -9,8 +9,8 @@ import (
 // Realestate ...
 type Realestate struct {
 	Name      string
-	Url       string
-	UrlPrefix string
+	URL       string
+	URLPrefix string
 }
 
 // RealestateParse ...
