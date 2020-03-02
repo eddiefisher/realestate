@@ -38,7 +38,7 @@ var mongodb *mongo.Client
 func Start(db *mongo.Client) {
 	mongodb = db
 	http.HandleFunc("/", IndexPage)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":80", nil))
 }
 
 // IndexPage ...

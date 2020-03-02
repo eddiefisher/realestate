@@ -24,3 +24,10 @@ func ParseAvito(r Realestate, c *colly.Collector) (lands Lands) {
 
 	return lands
 }
+
+func Drow() {
+	lands := avito.Parse()
+	lands = lands.Append(yandex.Parse)
+	...
+	return lands
+}
