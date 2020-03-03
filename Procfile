@@ -1,1 +1,1 @@
-web: bin/client
+web: build/client
