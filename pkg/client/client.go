@@ -58,8 +58,8 @@ func IndexPage(w http.ResponseWriter, r *http.Request) {
 	}
 	lands, err := landsPage(pagination)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
 		log.Printf("ERROR! mongo error: %s", err)
+		http.Error(w, "", http.StatusBadRequest)
 		return
 	}
 	dir, _ := os.Getwd()
@@ -78,7 +78,6 @@ func IndexPage(w http.ResponseWriter, r *http.Request) {
 		Lands:      lands,
 		Pagination: pagination,
 	}
-	log.Println(fmt.Sprintf("%v", l.Pagination.MiddleTotal))
 	tmpl.Execute(w, l)
 }
 
@@ -100,8 +99,8 @@ func getPage(page string, w http.ResponseWriter) (Pagination, error) {
 	}
 	current, err := strconv.Atoi(page)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
 		log.Printf("ERROR! -=page must be int=- page: %d, offset: %d, total: %d", pagination.Current, pagination.Offset, pagination.Total)
+		http.Error(w, "", http.StatusBadRequest)
 		return Pagination{}, err
 	}
 
@@ -125,8 +124,8 @@ func getPage(page string, w http.ResponseWriter) (Pagination, error) {
 	}
 
 	if current > pagination.Total {
-		w.WriteHeader(http.StatusBadRequest)
 		log.Printf("ERROR! -=big page=- page: %d, offset: %d, total: %d", pagination.Current, pagination.Offset, pagination.Total)
+		http.Error(w, "", http.StatusBadRequest)
 		return Pagination{}, err
 	}
 	return pagination, nil
