@@ -64,6 +64,7 @@ func IndexPage(w http.ResponseWriter, r *http.Request) {
 		fmt.Sprintf("%s/web/templates/layout.html", dir),
 		fmt.Sprintf("%s/web/templates/lands/index.html", dir),
 		fmt.Sprintf("%s/web/templates/pagination/pagination.html", dir),
+		fmt.Sprintf("%s/web/templates/metrics/yandex.html", dir),
 	)
 	if err != nil {
 		log.Println(err.Error())
