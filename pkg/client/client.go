@@ -9,6 +9,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/eddiefisher/realestate/pkg/middleware"
 	"github.com/eddiefisher/realestate/pkg/parser"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -42,7 +43,9 @@ func Start(db *mongo.Client) {
 		log.Fatal("$PORT must be set")
 	}
 	mongodb = db
-	http.HandleFunc("/", IndexPage)
+	indexHandler := http.HandlerFunc(IndexPage)
+	http.Handle("/", middleware.BasicAuthMiddleware(indexHandler))
+
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
