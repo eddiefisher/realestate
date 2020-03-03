@@ -36,9 +36,14 @@ var mongodb *mongo.Client
 
 // Start ...
 func Start(db *mongo.Client) {
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
 	mongodb = db
 	http.HandleFunc("/", IndexPage)
-	log.Fatal(http.ListenAndServe(":80", nil))
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
 // IndexPage ...
