@@ -8,7 +8,7 @@
             <div class="media-body">
                 <h5 class="mt-0"><a href="{{ .Link }}" target="_blank">{{ .Name }} | {{ .Price }}</a></h5>
                 <div>
-                    <p>{{ .Area }} {{ .Info }} <small>{{ .AddedAt }}</small></p>
+                    <p>{{ .Area }} {{ .Info }} <small>{{ .AddedAt.Format "02 Jan 2006" }}</small></p>
                     <p>{{ .Description }}</p>
                 </div>
                 <hr />
