@@ -2,6 +2,7 @@ package parser
 
 import (
 	"context"
+	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -19,6 +20,7 @@ type Land struct {
 	Price       string
 	Description string
 	Date        string
+	AddedAt     time.Time
 }
 
 // Append ...
@@ -32,6 +34,8 @@ func (lx Lands) Append(lands Lands) Lands {
 // Save ...
 func (l Land) Save(client *mongo.Client) error {
 	collection := client.Database("realestate").Collection("lands")
+	loc, _ := time.LoadLocation("Europe/Moscow")
+	l.AddedAt = time.Now().In(loc)
 
 	_, err := collection.InsertOne(context.Background(), l)
 	if err != nil {
