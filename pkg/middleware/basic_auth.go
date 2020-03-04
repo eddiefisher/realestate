@@ -8,10 +8,12 @@ func BasicAuthMiddleware(next http.Handler) http.Handler {
 		user, pass, ok := r.BasicAuth()
 		if !ok {
 			w.Header().Set("WWW-Authenticate", `Basic realm="Enter pls"`)
-			http.Error(w, "basic auth", http.StatusForbidden)
+			http.Error(w, "basic auth", http.StatusUnauthorized)
+			return
 		}
 		if user != "aminoci" && pass != "password" {
-			http.Error(w, "login error", http.StatusForbidden)
+			http.Error(w, "login error", http.StatusUnauthorized)
+			return
 		}
 		next.ServeHTTP(w, r)
 	})
