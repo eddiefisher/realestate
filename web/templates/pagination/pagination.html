@@ -4,11 +4,10 @@
     <ul class="pagination">
         <li class="page-item"><a class="page-link" href="/">First</a></li>
         {{ range .Pagination.MiddleTotal }}
-        {{ $p := .+1 }}
         {{ if eq $current . }}
-        <li class="page-item active"><a class="page-link" href="/?page={{ . }}">{{ $p }}</a></li>
+        <li class="page-item active"><a class="page-link" href="/?page={{ . }}">{{ . }}</a></li>
         {{ else }}
-        <li class="page-item"><a class="page-link" href="/?page={{ . }}">{{ $p }}</a></li>
+        <li class="page-item"><a class="page-link" href="/?page={{ . }}">{{ . }}</a></li>
         {{ end }}
         {{ end }}
         <!-- <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
