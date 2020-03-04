@@ -133,7 +133,7 @@ func getPage(page string, w http.ResponseWriter) (Pagination, error) {
 
 func landsPage(p Pagination) (parser.Lands, error) {
 	collection := mongodb.Database("realestate").Collection("lands")
-	ops := options.Find().SetLimit(int64(p.Limit)).SetSkip(int64(p.Offset))
+	ops := options.Find().SetLimit(int64(p.Limit)).SetSkip(int64(p.Offset)).SetSort(bson.D{{"addedat", -1}})
 	cur, err := collection.Find(context.Background(), bson.M{}, ops)
 	if err != nil {
 		log.Printf("Error: find error: %s", err.Error())
