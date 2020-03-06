@@ -3,6 +3,7 @@ package mongo
 import (
 	"context"
 	"log"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -13,7 +14,12 @@ import (
 
 // Connect user: realestate; pass: i0MZ9imH7aTt3aOh
 func Connect() (*mongo.Client, context.Context) {
-	atlasURL := "mongodb+srv://realestate:i0MZ9imH7aTt3aOh@cluster0-fw671.mongodb.net/test?retryWrites=true&w=majority"
+	atlasURL := os.Getenv("atlas_url")
+
+	if atlasURL == "" {
+		log.Fatal("$atlas_url must be set")
+	}
+
 	client, err := mongo.NewClient(options.Client().ApplyURI(atlasURL))
 	if err != nil {
 		log.Fatal(err)
