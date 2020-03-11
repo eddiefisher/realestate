@@ -40,13 +40,13 @@ func Start(db *mongo.Client) {
 	port := os.Getenv("PORT")
 
 	if port == "" {
-		log.Fatal("$PORT must be set")
+		logrus.Fatal("$PORT must be set")
 	}
 	mongodb = db
 	indexHandler := http.HandlerFunc(IndexPage)
 	http.Handle("/", middleware.BasicAuthMiddleware(indexHandler))
 
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	logrus.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
 // IndexPage ...
@@ -58,7 +58,7 @@ func IndexPage(w http.ResponseWriter, r *http.Request) {
 	}
 	lands, err := landsPage(pagination)
 	if err != nil {
-		log.Printf("ERROR! mongo error: %s", err)
+		logrus.Errorf("mongo error: %s", err)
 		http.Error(w, "", http.StatusBadRequest)
 		return
 	}
@@ -70,7 +70,7 @@ func IndexPage(w http.ResponseWriter, r *http.Request) {
 		fmt.Sprintf("%s/web/templates/metrics/yandex.html", dir),
 	)
 	if err != nil {
-		log.Println(err.Error())
+		logrus.Error(err.Error())
 		return
 	}
 	l := Layout{
@@ -99,7 +99,7 @@ func getPage(page string, w http.ResponseWriter) (Pagination, error) {
 	}
 	current, err := strconv.Atoi(page)
 	if err != nil {
-		log.Printf("ERROR! -=page must be int=- page: %d, offset: %d, total: %d", pagination.Current, pagination.Offset, pagination.Total)
+		logrus.Errorf("-=page must be int=- page: %d, offset: %d, total: %d", pagination.Current, pagination.Offset, pagination.Total)
 		http.Error(w, "", http.StatusBadRequest)
 		return Pagination{}, err
 	}
@@ -124,7 +124,7 @@ func getPage(page string, w http.ResponseWriter) (Pagination, error) {
 	}
 
 	if current > pagination.Total {
-		log.Printf("ERROR! -=big page=- page: %d, offset: %d, total: %d", pagination.Current, pagination.Offset, pagination.Total)
+		logrus.Errorf("-=big page=- page: %d, offset: %d, total: %d", pagination.Current, pagination.Offset, pagination.Total)
 		http.Error(w, "", http.StatusBadRequest)
 		return Pagination{}, err
 	}
@@ -136,7 +136,7 @@ func landsPage(p Pagination) (parser.Lands, error) {
 	ops := options.Find().SetLimit(int64(p.Limit)).SetSkip(int64(p.Offset)).SetSort(bson.D{{"addedat", -1}})
 	cur, err := collection.Find(context.Background(), bson.M{}, ops)
 	if err != nil {
-		log.Printf("Error: find error: %s", err.Error())
+		logrus.Errorf("find error: %s", err.Error())
 		return nil, err
 	}
 	defer cur.Close(context.Background())
@@ -146,7 +146,7 @@ func landsPage(p Pagination) (parser.Lands, error) {
 		var elem parser.Land
 		err := cur.Decode(&elem)
 		if err != nil {
-			log.Printf("Error: parse element: %s", err.Error())
+			logrus.Errorf("parse element: %s", err.Error())
 			return nil, err
 		}
 
@@ -154,7 +154,7 @@ func landsPage(p Pagination) (parser.Lands, error) {
 	}
 
 	if err := cur.Err(); err != nil {
-		log.Printf("Error cursor: %s", err.Error())
+		logrus.Errorf("cursor: %s", err.Error())
 		return nil, err
 	}
 

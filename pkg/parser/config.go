@@ -1,9 +1,8 @@
 package parser
 
 import (
-	"log"
-
 	"github.com/BurntSushi/toml"
+	"github.com/sirupsen/logrus"
 )
 
 // Config ...
@@ -20,7 +19,7 @@ func NewConfig(path string) Config {
 	conf := Config{}
 	_, err := toml.DecodeFile(path, &conf)
 	if err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 	return conf
 }

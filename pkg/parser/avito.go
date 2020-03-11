@@ -24,7 +24,7 @@ func ParseAvito(r Realestate, c *colly.Collector) (lands Lands) {
 	c.Visit(r.URL)
 
 	if len(lands) == 0 {
-		log.Printf("Error: %s - no lands", r.Name)
+		logrus.Errorf("%s - no lands", r.Name)
 	}
 
 	return lands

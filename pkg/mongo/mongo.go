@@ -2,10 +2,10 @@ package mongo
 
 import (
 	"context"
-	"log"
 	"os"
 	"time"
 
+	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -17,23 +17,23 @@ func Connect() (*mongo.Client, context.Context) {
 	atlasURL := os.Getenv("atlas_url")
 
 	if atlasURL == "" {
-		log.Fatal("$atlas_url must be set")
+		logrus.Fatal("$atlas_url must be set")
 	}
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(atlasURL))
 	if err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	err = client.Connect(ctx)
 	if err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 
 	err = client.Ping(ctx, readpref.Primary())
 	if err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 
 	return client, ctx

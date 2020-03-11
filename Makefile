@@ -10,10 +10,10 @@ build:
 
 ## run: run project
 run:
-	./build/$(PROJECTNAME)
+	source .env && ./build/$(PROJECTNAME)
 
 client:
-	./build/client
+	source .env && ./build/client
 
 help: Makefile
 	@echo
