@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gocolly/colly"
+	"github.com/gocolly/colly/extensions"
 )
 
 // Realestate ...
@@ -21,5 +22,6 @@ func (r Realestate) ParseList(parse RealestateParse) Lands {
 	c := colly.NewCollector(
 		colly.CacheDir(fmt.Sprintf("./cache/%s/%s", r.Name, CachDate())),
 	)
+	extensions.RandomUserAgent(c)
 	return parse(r, c)
 }
