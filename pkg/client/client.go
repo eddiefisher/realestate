@@ -4,13 +4,15 @@ import (
 	"context"
 	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 	"os"
+	"path"
 	"strconv"
 
+	"github.com/eddiefisher/realestate/pkg/htmltemplates"
 	"github.com/eddiefisher/realestate/pkg/middleware"
 	"github.com/eddiefisher/realestate/pkg/parser"
+	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -43,6 +45,9 @@ func Start(db *mongo.Client) {
 		logrus.Fatal("$PORT must be set")
 	}
 	mongodb = db
+	rootdir := "web/downloads/images/"
+	http.Handle("/static/img/", http.StripPrefix("/static/img/",
+		http.FileServer(http.Dir(path.Join(rootdir)))))
 	indexHandler := http.HandlerFunc(IndexPage)
 	http.Handle("/", middleware.BasicAuthMiddleware(indexHandler))
 
@@ -63,7 +68,7 @@ func IndexPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	dir, _ := os.Getwd()
-	tmpl, err := template.ParseFiles(
+	tmpl, err := template.New("layout.html").Funcs(htmltemplates.FuncMap()).ParseFiles(
 		fmt.Sprintf("%s/web/templates/layout.html", dir),
 		fmt.Sprintf("%s/web/templates/lands/index.html", dir),
 		fmt.Sprintf("%s/web/templates/pagination/pagination.html", dir),

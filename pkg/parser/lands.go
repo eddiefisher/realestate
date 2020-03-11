@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/eddiefisher/realestate/pkg/remotefile"
+	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -21,6 +23,8 @@ type Land struct {
 	Description string
 	Date        string
 	AddedAt     time.Time
+	Images      Images
+	Source      string
 }
 
 // Append ...
@@ -36,6 +40,7 @@ func (l Land) Save(client *mongo.Client) error {
 	collection := client.Database("realestate").Collection("lands")
 	loc, _ := time.LoadLocation("Europe/Moscow")
 	l.AddedAt = time.Now().In(loc)
+	l.DownloadImage()
 
 	_, err := collection.InsertOne(context.Background(), l)
 	if err != nil {
@@ -43,4 +48,18 @@ func (l Land) Save(client *mongo.Client) error {
 	}
 
 	return nil
+}
+
+// DownloadImage ...
+func (l Land) DownloadImage() {
+	if len(l.Images) == 0 {
+		return
+	}
+	for _, image := range l.Images {
+		logrus.Info(image.URL)
+		err := remotefile.New(image.URL, l.Source).Download()
+		if err != nil {
+			logrus.Error(err)
+		}
+	}
 }

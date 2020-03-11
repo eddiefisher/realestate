@@ -2,24 +2,26 @@
 
 {{ define "content" }}
 {{range .Lands}}
-<div class="row">
-    <div class="col-xl">
-        <div class="media">
-            <div class="media-body">
-                <h5 class="mt-0">
-                    <a href="{{ .Link }}" target="_blank">{{ .Name }} | {{ .Price }}</a>
-                    &nbsp;<small>{{ .AddedAt.Format "02 Jan 2006" }}</small>
-                </h5>
-                <div>
-                    <p>{{ .Area }} {{ .Info }}</p>
-                    <p>{{ .Description }}</p>
-                </div>
-                <hr />
-            </div>
-            <div class="ml-3"><a class="btn btn-outline-primary" href="#" role="button">Like</a></div>
+<div class="row mb-3">
+    <div class="col-12 col-md-3">
+        <img src="/static/img/{{ .Source }}/{{ getFirstImageName .Images }}" class="">
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-8">
+        <h5>
+            <a href="{{ .Link }}" target="_blank">{{ .Name }} | {{ .Price }}</a>
+            &nbsp;<small>{{ .AddedAt.Format "02 Jan 2006" }}</small>
+        </h5>
+        <div>
+            <p>{{ .Area }} {{ .Info }}</p>
+            <p>{{ .Description }}</p>
         </div>
+    </div>
+    <div class="col-12 col-md-3 col-lg-1">
+        <div class="mx-auto"><a class="btn btn-outline-primary" href="#" role="button">Like</a></div>
     </div>
 </div>
 {{ end }}
+
 {{ template "pagination" . }}
 {{ end }}
