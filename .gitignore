@@ -30,3 +30,4 @@ build/
 cache/
 .env
 web/downloads/images/**/
+.vscode
