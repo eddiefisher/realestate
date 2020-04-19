@@ -1,0 +1,12 @@
+{{ define "lands_sort" }}
+<div class="sortby clearfix">
+  <div class="pull-left result">Showing: {{ .Pagination.Offset }} of {{ .Pagination.Total }} </div>
+  <div class="pull-right">
+    <select class="form-control">
+      <option>Sort by</option>
+      <option>Price: Low to High</option>
+      <option>Price: High to Low</option>
+    </select>
+  </div>
+</div>
+{{ end }}

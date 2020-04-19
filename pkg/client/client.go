@@ -71,6 +71,9 @@ func IndexPage(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.New("layout.html").Funcs(htmltemplates.FuncMap()).ParseFiles(
 		fmt.Sprintf("%s/web/templates/layout.html", dir),
 		fmt.Sprintf("%s/web/templates/lands/index.html", dir),
+		fmt.Sprintf("%s/web/templates/lands/search.html", dir),
+		fmt.Sprintf("%s/web/templates/lands/sort.html", dir),
+		fmt.Sprintf("%s/web/templates/lands/item.html", dir),
 		fmt.Sprintf("%s/web/templates/pagination/pagination.html", dir),
 		fmt.Sprintf("%s/web/templates/metrics/yandex.html", dir),
 	)
