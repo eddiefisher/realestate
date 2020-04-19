@@ -5,9 +5,10 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"strings"
 
-	"github.com/sirupsen/logrus"
+	"github.com/eddiefisher/realestate/pkg/imageproxy"
 )
 
 // RemoteFile ...
@@ -46,7 +47,15 @@ func (r *RemoteFile) Download() error {
 	if err != nil {
 		return err
 	}
+	r.cloudinaryUpload()
 	return nil
+}
+
+// cloudinaryUpload
+func (r *RemoteFile) cloudinaryUpload() {
+	var extension = filepath.Ext(r.Name)
+	var name = r.Name[0 : len(r.Name)-len(extension)]
+	imageproxy.Upload(r.URL, r.Prefix, name)
 }
 
 func (r *RemoteFile) putFile(file *os.File, client *http.Client) error {
@@ -73,8 +82,6 @@ func (r *RemoteFile) buildFileName() error {
 	segments := strings.Split(fileURL.Path, "/")
 	r.Name = segments[len(segments)-1]
 
-	logrus.Info(segments, r.Name)
-
 	return nil
 }
 
@@ -94,7 +101,6 @@ func (r *RemoteFile) createFile() (*os.File, error) {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		os.MkdirAll(path, os.ModePerm)
 	}
-	logrus.Info(path + "/" + r.Name)
 	file, err := os.Create(path + "/" + r.Name)
 	if err != nil {
 		return nil, err

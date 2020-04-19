@@ -2,7 +2,7 @@
 <div class="col-lg-4 col-sm-6">
   <div class="properties">
     <div class="image-holder">
-      <img src="/static/img/{{ .Source }}/{{ getFirstImageName .Images }}" class="img-responsive" alt="properties">
+      <img src="{{ getFirstImageFromCloud .Source .Images }}" class="img-responsive" alt="properties">
       <div class="status sold">Sold</div>
     </div>
     <h4><a href="{{ .Link }}" target="_blank">{{ .Name }}</a></h4>
