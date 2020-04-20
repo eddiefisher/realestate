@@ -10,7 +10,7 @@ import (
 
 // ParseAvito ...
 func ParseAvito(r Realestate, c *colly.Collector) (lands Lands) {
-	c.OnHTML(".js-catalog_serp .snippet-horizontal.item.item_table", func(e *colly.HTMLElement) {
+	c.OnHTML(".snippet-horizontal.item.item_table .item__line", func(e *colly.HTMLElement) {
 		link := fmt.Sprintf("%s%s", r.URLPrefix, e.ChildAttr("a.snippet-link", "href"))
 		lands = append(lands, Land{
 			UID:    base64.StdEncoding.EncodeToString([]byte(link)),
@@ -27,6 +27,9 @@ func ParseAvito(r Realestate, c *colly.Collector) (lands Lands) {
 
 	if len(lands) == 0 {
 		logrus.Errorf("%s - no lands", r.Name)
+	}
+	for _, land := range lands {
+		logrus.Println(land.Name, land.Price)
 	}
 
 	return lands

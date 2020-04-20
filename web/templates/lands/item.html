@@ -3,16 +3,16 @@
   <div class="properties">
     <div class="image-holder">
       <img src="{{ getFirstImageFromCloud .Source .Images }}" class="img-responsive" alt="properties">
-      <div class="status sold">Sold</div>
+      <!-- <div class="status sold">Sold</div> -->
     </div>
     <h4><a href="{{ .Link }}" target="_blank">{{ .Name }}</a></h4>
     <p class="price">Price: {{ .Price }}</p>
-    <div class="listing-detail">
+    <!-- <div class="listing-detail">
       <span data-toggle="tooltip" data-placement="bottom" data-original-title="Bed Room">5</span>
       <span data-toggle="tooltip" data-placement="bottom" data-original-title="Living Room">2</span>
       <span data-toggle="tooltip" data-placement="bottom" data-original-title="Parking">2</span>
       <span data-toggle="tooltip" data-placement="bottom" data-original-title="Kitchen">1</span>
-    </div>
+    </div> -->
     <a class="btn btn-primary" href="{{ .Link }}" target="_blank">Посмотреть</a>
   </div>
 </div>

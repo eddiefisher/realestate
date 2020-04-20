@@ -32,6 +32,9 @@ func (r *RemoteFile) Download() error {
 	if err != nil {
 		return err
 	}
+	if r.Name == "0.gif" {
+		return nil
+	}
 
 	r.cloudinaryUpload()
 	return nil

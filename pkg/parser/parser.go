@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -33,8 +34,11 @@ func Save(lands Lands, client *mongo.Client) error {
 	for _, land := range lands {
 		err := land.Save(client)
 		if err != nil {
-			return err
+			logrus.Println(err)
 		}
+	}
+	for _, land := range lands {
+		logrus.Println("---->", land.Name, land.Price)
 	}
 	return nil
 }
