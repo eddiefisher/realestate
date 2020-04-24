@@ -99,7 +99,7 @@ func totalPage() int {
 
 func getPage(page string, w http.ResponseWriter) (Pagination, error) {
 	pagination := Pagination{
-		Limit: 30,
+		Limit: 50,
 		Max:   9,
 	}
 	if len(page) == 0 {
