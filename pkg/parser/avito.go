@@ -3,6 +3,7 @@ package parser
 import (
 	"encoding/base64"
 	"fmt"
+	"strings"
 
 	"github.com/gocolly/colly"
 	"github.com/sirupsen/logrus"
@@ -19,7 +20,7 @@ func ParseAvito(r Realestate, c *colly.Collector) (lands Lands) {
 			Info:   fmt.Sprintf("%s, %s", e.ChildText(".item-address__string"), e.ChildText(".fld_gaz")),
 			Price:  e.ChildText(".snippet-price"),
 			Date:   e.ChildText(".snippet-date-info"),
-			Images: images(e.ChildAttrs(".item-slider-image img", "src")),
+			Images: images(getAllImages(e)),
 			Source: "avito",
 		})
 	})
@@ -28,16 +29,27 @@ func ParseAvito(r Realestate, c *colly.Collector) (lands Lands) {
 	if len(lands) == 0 {
 		logrus.Errorf("%s - no lands", r.Name)
 	}
-	for _, land := range lands {
-		logrus.Println(land.Name, land.Price)
-	}
 
 	return lands
 }
 
+func getAllImages(e *colly.HTMLElement) []string {
+	var images []string
+	for _, i := range extractSRC(e.ChildAttrs(".photo-wrapper img", "srcset")) {
+		images = append(images, i)
+	}
+	for _, i := range extractSRC(e.ChildAttrs(".item-slider-image img", "srcset")) {
+		images = append(images, i)
+	}
+	for _, i := range extractSRC(e.ChildAttrs(".item-slider-image img", "data-srcset")) {
+		images = append(images, i)
+	}
+	return images
+}
+
 func images(ix []string) Images {
 	images := Images{}
-	logrus.Info(images, len(images))
+
 	if len(ix) == 0 {
 		return Images{}
 	}
@@ -46,4 +58,16 @@ func images(ix []string) Images {
 		images = append(images, Image{URL: i})
 	}
 	return images
+}
+
+func extractSRC(ix []string) (result []string) {
+	for _, i := range ix {
+		for _, s := range strings.Split(i, ",") {
+			if strings.Contains(s, "1.5x") {
+				s = strings.Replace(s, " 1.5x", "", 1)
+				result = append(result, strings.Trim(s, " "))
+			}
+		}
+	}
+	return result
 }

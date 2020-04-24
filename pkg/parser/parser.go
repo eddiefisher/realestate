@@ -37,8 +37,5 @@ func Save(lands Lands, client *mongo.Client) error {
 			logrus.Println(err)
 		}
 	}
-	for _, land := range lands {
-		logrus.Println("---->", land.Name, land.Price)
-	}
 	return nil
 }

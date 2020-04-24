@@ -44,6 +44,10 @@ func (l Land) Save(client *mongo.Client) error {
 
 	_, err := collection.InsertOne(context.Background(), l)
 	if err != nil {
+		// _, err = collection.ReplaceOne(context.Background(), bson.M{"uid": l.UID}, l)
+		// if err != nil {
+		// 	return err
+		// }
 		return err
 	}
 
@@ -56,7 +60,6 @@ func (l Land) DownloadImage() {
 		return
 	}
 	for _, image := range l.Images {
-		logrus.Info(image.URL)
 		err := remotefile.New(image.URL, l.Source).Download()
 		if err != nil {
 			logrus.Error(err)
