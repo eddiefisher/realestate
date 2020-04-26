@@ -94,7 +94,7 @@ func IndexPage(w http.ResponseWriter, r *http.Request) {
 
 func landsPage(page int) (parser.Lands, paginator.Paginator, error) {
 	collection := mongodb.Database("realestate").Collection("lands")
-	p := paginator.New(adapter.NewMongoAdapter(collection), 13)
+	p := paginator.New(adapter.NewMongoAdapter(collection), 24)
 	p.SetPage(page)
 
 	var lands parser.Lands
