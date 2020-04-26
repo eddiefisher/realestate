@@ -5,14 +5,13 @@
     <div class="row">
         {{ template "lands_search" . }}
         <div class="col-lg-9 col-sm-8">
-            <!-- {{ template "lands_sort" . }} -->
             <div class="row">
                 {{range .Lands}}
                 {{ template "lends_item" . }}
                 {{ end }}
             </div>
+            <div class="row">{{ template "pagination" . }}</div>
         </div>
     </div>
 </div>
-{{ template "pagination" . }}
 {{ end }}

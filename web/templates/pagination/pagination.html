@@ -1,16 +1,34 @@
 {{ define "pagination" }}
 {{ $current := .Pagination.Current }}
-<nav aria-label="Page navigation example">
+<nav aria-label="navigation clearfix">
     <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="/">First</a></li>
-        {{ range .Pagination.MiddleTotal }}
+        {{ if eq .Pagination.Prev 0 }}
+        <li class="page-item disabled">
+            <span class="page-link">Назад</span>
+        </li>
+        {{ else }}
+        <li class="page-item">
+            <a class="page-link" href="/?page={{ .Pagination.Prev }}">Назад</a>
+        </li>
+        {{ end }}
+
+        {{ range .Pagination.Pages }}
         {{ if eq $current . }}
         <li class="page-item active"><a class="page-link" href="/?page={{ . }}">{{ . }}</a></li>
         {{ else }}
         <li class="page-item"><a class="page-link" href="/?page={{ . }}">{{ . }}</a></li>
         {{ end }}
         {{ end }}
-        <!-- <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
+
+        {{ if eq .Pagination.Next .Pagination.Last }}
+        <li class="page-item disabled">
+            <span class="page-link">Вперед</span>
+        </li>
+        {{ else }}
+        <li class="page-item">
+        <li class="page-item"><a class="page-link" href="/?page={{ .Pagination.Next }}">Вперед</a></li>
+        </li>
+        {{ end }}
     </ul>
 </nav>
 {{ end }}

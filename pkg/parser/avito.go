@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/eddiefisher/realestate/pkg/tools/unique"
 	"github.com/gocolly/colly"
 	"github.com/sirupsen/logrus"
 )
@@ -44,7 +45,7 @@ func getAllImages(e *colly.HTMLElement) []string {
 	for _, i := range extractSRC(e.ChildAttrs(".item-slider-image img", "data-srcset")) {
 		images = append(images, i)
 	}
-	return images
+	return unique.Strings(images)
 }
 
 func images(ix []string) Images {
