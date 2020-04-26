@@ -34,7 +34,7 @@ func (a MongoAdapter) Nums() int {
 // data must be a pointer to a slice of models.
 func (a MongoAdapter) Slice(offset, length int, data interface{}) error {
 	logrus.Println(offset, length)
-	ops := options.Find().SetLimit(int64(length)).SetSkip(int64(offset)).SetSort(bson.M{"addedad": 1})
+	ops := options.Find().SetLimit(int64(length)).SetSkip(int64(offset)).SetSort(bson.M{"addedat": -1})
 	cur, err := a.db.Find(context.Background(), bson.M{}, ops)
 	_ = cur.All(context.Background(), data)
 
