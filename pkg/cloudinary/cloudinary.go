@@ -106,7 +106,7 @@ func (c *Cloudinary) send(url string, postParams url.Values, options Option) []b
 	}
 
 	client := http.Client{}
-	resp, err := client.Do(req)
+	resp, _ := client.Do(req)
 
 	defer resp.Body.Close()
 
